@@ -1,0 +1,97 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @version 1.1.8 */
+/** @var Template $block */
+
+$fetchLocalStorage = !(bool)$block->getSkipLocalStorage();
+$fetchCookies = !(bool)$block->getSkipCookies();
+?>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('LokiMessageStore', {
+            messages: [],
+            fetchLocalStorage: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
+            fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
+            init() {
+                if (this.fetchLocalStorage) {
+                    Alpine.effect(() => {
+                        const messageSection = Alpine.store('LokiLocalStorage').get('messages');
+                        if (messageSection && messageSection.messages) {
+                            this.messages = [...this.messages, ...messageSection.messages];
+                            this.reset();
+                        }
+                    });
+                }
+            },
+            getMessages() {
+                const cookieMessages = this.getCookieMessages();
+                if (cookieMessages.length > 0) {
+                    this.messages = [...this.messages, ...cookieMessages];
+                    LokiCookies.remove('mage-messages');
+                }
+
+                return this.messages;
+            },
+            getCookieMessages() {
+                if (!this.fetchCookies) {
+                    return [];
+                }
+
+                const cookieMessages = LokiCookies.get('mage-messages') || [];
+                if (!cookieMessages instanceof Array) {
+                    LokiCookies.remove('mage-messages');
+                    return [];
+                }
+
+                return cookieMessages;
+            },
+            addMessage(type, text) {
+                this.messages.push({type, text});
+            },
+            removeMessage(type, text) {
+                this.messages = this.messages.filter(message => {
+                    return !(message.type === type && message.text === text);
+                });
+            },
+            saveMessage(type, text) {
+                const messages = this.getMessagesFromStore();
+                messages.push({type, text});
+                this.setMessageInStore(messages);
+            },
+            addErrorMessage(text) {
+                this.addMessage('error', text);
+            },
+            addWarningMessage(text) {
+                this.addMessage('warning', text);
+            },
+            addSuccessMessage(text) {
+                this.addMessage('success', text);
+            },
+            addNoticeMessage(text) {
+                this.addMessage('notice', text);
+            },
+            reset() {
+                this.getStore().set('messages', {
+                    data_id: this.getStore().getNewSectionLifetime(),
+                    messages: []
+                });
+            },
+            getMessagesFromStore() {
+                const messagesSection = this.getStore().get('messages');
+                return messagesSection && messagesSection.messages ? messagesSection.messages : [];
+            },
+            setMessageInStore(messages) {
+                this.getStore().set('messages', {
+                    data_id: this.getStore().getNewSectionLifetime(),
+                    messages
+                });
+            },
+            getStore() {
+                return Alpine.store('LokiLocalStorage');
+            }
+        });
+    });
+</script>

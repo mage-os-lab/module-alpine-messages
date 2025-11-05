@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Alpine frontend components are inspired and created starting from Loki_Base and Loki_Theme
+ *
+ * loki-theme/magento2-luma-components
+ * Version: 0.0.9
+ * Copyright: 2025 Jisse Reitsma
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:View/Layout:etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.messages">
+            <block
+                name="loki.messages"
+                template="MageOS_AlpineMessages::component/messages.phtml"
+                before="-">
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="alpine-js.store">
+            <block
+                name="alpine-js.store.messages"
+                template="MageOS_AlpineMessages::script/store/message-store.phtml"/>
+        </referenceContainer>
+
+        <referenceContainer name="alpine-js.component">
+            <block
+                name="alpine-js.component.messages"
+                template="MageOS_AlpineMessages::script/component/message-component.phtml">
+                <arguments>
+                    <argument name="config" xsi:type="object">MageOS\AlpineMessages\Config\Config</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
