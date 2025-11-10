@@ -30,7 +30,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
                 const cookieMessages = this.getCookieMessages();
                 if (cookieMessages.length > 0) {
                     this.messages = [...this.messages, ...cookieMessages];
-                    LokiCookies.remove('mage-messages');
+                    MageCookies.remove('mage-messages');
                 }
 
                 return this.messages;
@@ -40,9 +40,9 @@ $fetchCookies = !(bool)$block->getSkipCookies();
                     return [];
                 }
 
-                const cookieMessages = LokiCookies.get('mage-messages') || [];
+                const cookieMessages = MageCookies.get('mage-messages') || [];
                 if (!cookieMessages instanceof Array) {
-                    LokiCookies.remove('mage-messages');
+                    MageCookies.remove('mage-messages');
                     return [];
                 }
 
