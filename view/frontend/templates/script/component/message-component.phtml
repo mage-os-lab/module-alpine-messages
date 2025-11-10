@@ -16,7 +16,7 @@ if (false === is_numeric($timeout) || $timeout < 0) {
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('LokiMessagesComponent', () => ({
+        Alpine.data('MessageComponent', () => ({
             messages: [],
             timeout: <?= (int)$timeout ?>,
             init() {
