@@ -3,22 +3,24 @@ declare(strict_types=1);
 
 use Loki\Base\Config\Config;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /** @version 1.1.8 */
 /** @var Template $block */
 /** @var Config $config */
+/** @var SecureHtmlRenderer $secureRenderer */
 
 $timeout = $block->getTimeout();
 if (false === is_numeric($timeout) || $timeout < 0) {
     $config = $block->getConfig();
     $timeout = $config->getMessagesTimeout();
 }
-?>
-<script>
+
+$script = <<<SCRIPT
     document.addEventListener('alpine:init', () => {
         Alpine.data('MessageComponent', () => ({
             messages: [],
-            timeout: <?= (int)$timeout ?>,
+            timeout: {$timeout},
             init() {
                 Alpine.effect(() => {
                     this.messages = Alpine.store('Message').getMessages();
@@ -28,10 +30,12 @@ if (false === is_numeric($timeout) || $timeout < 0) {
                 return this.messages.length > 0;
             },
             removeMessage() {
-                const type = this.$el.getAttribute('data-message-type');
-                const text = this.$el.getAttribute('data-message-text');
+                const type = this.\$el.getAttribute('data-message-type');
+                const text = this.\$el.getAttribute('data-message-text');
                 Alpine.store('Message').removeMessage(type, text);
             },
         }));
     });
-</script>
+SCRIPT;
+?>
+<?= $secureRenderer->renderTag('script', [], $script, false); ?>

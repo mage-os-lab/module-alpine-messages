@@ -2,19 +2,20 @@
 declare(strict_types=1);
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /** @version 1.1.8 */
 /** @var Template $block */
+/** @var SecureHtmlRenderer $secureRenderer */
 
-$fetchLocalStorage = !(bool)$block->getSkipLocalStorage();
-$fetchCookies = !(bool)$block->getSkipCookies();
-?>
-<script>
+$fetchLocalStorage = (bool)$block->getSkipLocalStorage() ? 'false' : 'true';
+$fetchCookies = (bool)$block->getSkipCookies() ? 'false' : 'true';
+$script = <<<SCRIPT
     document.addEventListener('alpine:init', () => {
         Alpine.store('Message', {
             messages: [],
-            fetchLocalStorage: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
-            fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
+            fetchLocalStorage: '{$fetchLocalStorage}',
+            fetchCookies: '{$fetchCookies}',
             init() {
                 if (this.fetchLocalStorage) {
                     Alpine.effect(() => {
@@ -94,4 +95,6 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             }
         });
     });
-</script>
+SCRIPT;
+?>
+<?= $secureRenderer->renderTag('script', [], $script, false); ?>
