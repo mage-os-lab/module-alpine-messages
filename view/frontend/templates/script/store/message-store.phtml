@@ -11,7 +11,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.store('LokiMessageStore', {
+        Alpine.store('Message', {
             messages: [],
             fetchLocalStorage: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
             fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,

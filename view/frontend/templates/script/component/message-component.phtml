@@ -21,7 +21,7 @@ if (false === is_numeric($timeout) || $timeout < 0) {
             timeout: <?= (int)$timeout ?>,
             init() {
                 Alpine.effect(() => {
-                    this.messages = Alpine.store('LokiMessageStore').getMessages();
+                    this.messages = Alpine.store('Message').getMessages();
                 });
             },
             hasMessages() {
@@ -30,7 +30,7 @@ if (false === is_numeric($timeout) || $timeout < 0) {
             removeMessage() {
                 const type = this.$el.getAttribute('data-message-type');
                 const text = this.$el.getAttribute('data-message-text');
-                Alpine.store('LokiMessageStore').removeMessage(type, text);
+                Alpine.store('Message').removeMessage(type, text);
             },
         }));
     });
