@@ -18,7 +18,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             init() {
                 if (this.fetchLocalStorage) {
                     Alpine.effect(() => {
-                        const messageSection = Alpine.store('LokiLocalStorage').get('messages');
+                        const messageSection = Alpine.store('LocalStorage').get('messages');
                         if (messageSection && messageSection.messages) {
                             this.messages = [...this.messages, ...messageSection.messages];
                             this.reset();
