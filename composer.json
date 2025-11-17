@@ -1,20 +1,22 @@
 {
-  "name": "mage-os/module-alpine-messages",
-  "version": "1.0.0",
-  "description": "N/A",
-  "type": "magento2-module",
-  "require": {
-    "magento/framework": "^103.0"
-  },
-  "license": [
-    "OSL-3.0"
-  ],
-  "autoload": {
-    "files": [
-      "registration.php"
+    "name": "mage-os/module-alpine-messages",
+    "version": "1.0.0",
+    "description": "N/A",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "^103.0",
+        "mage-os/module-alpine-loader": "*",
+        "mage-os/module-alpine-local-storage": "*"
+    },
+    "license": [
+        "OSL-3.0"
     ],
-    "psr-4": {
-      "MageOS\\AlpineMessages\\": ""
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MageOS\\AlpineMessages\\": ""
+        }
     }
-  }
 }
