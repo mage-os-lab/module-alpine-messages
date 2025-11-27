@@ -13,7 +13,7 @@
     <body>
         <referenceContainer name="page.messages">
             <block
-                name="loki.messages"
+                name="alpine-js.messages"
                 template="MageOS_AlpineMessages::component/messages.phtml"
                 before="-">
             </block>
