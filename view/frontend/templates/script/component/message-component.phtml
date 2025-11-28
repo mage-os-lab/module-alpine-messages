@@ -18,7 +18,7 @@ if (false === is_numeric($timeout) || $timeout < 0) {
 
 $script = <<<SCRIPT
     document.addEventListener('alpine:init', () => {
-        Alpine.data('MessageComponent', () => ({
+        Alpine.data('Messages', () => ({
             messages: [],
             timeout: {$timeout},
             init() {
