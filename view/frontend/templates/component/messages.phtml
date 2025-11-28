@@ -9,7 +9,7 @@ use Magento\Framework\View\Element\Template;
 ?>
 <div
     class="container mx-auto py-3"
-    x-data="LokiMessagesComponent" x-cloak x-show="hasMessages">
+    x-data="MessageComponent" x-cloak x-show="hasMessages">
     <template x-for="message in messages">
         <div
             :data-message-type="message.type"
